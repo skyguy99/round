@@ -10,6 +10,16 @@
 		153FDE291DD063FD1A929703 /* Pods_Makestagram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837E8DB1140E3C18464FF6A5 /* Pods_Makestagram.framework */; };
 		169D95EB1D1FEDA300E920CD /* hpeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169D95EA1D1FEDA300E920CD /* hpeHelper.swift */; };
 		169D95ED1D1FF89200E920CD /* LocationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169D95EC1D1FF89200E920CD /* LocationHelper.swift */; };
+		169D95F11D203A2F00E920CD /* greymapicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 169D95F01D203A2F00E920CD /* greymapicon.png */; };
+		169D95F31D203A6E00E920CD /* 60.png in Resources */ = {isa = PBXBuildFile; fileRef = 169D95F21D203A6E00E920CD /* 60.png */; };
+		169D95F51D203BA600E920CD /* Icon-Small-50@2x copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 169D95F41D203BA600E920CD /* Icon-Small-50@2x copy.png */; };
+		169D95F71D203E6000E920CD /* pin-map-7.png in Resources */ = {isa = PBXBuildFile; fileRef = 169D95F61D203E6000E920CD /* pin-map-7.png */; };
+		169D95F91D203F4500E920CD /* emoticon-smile-7.png in Resources */ = {isa = PBXBuildFile; fileRef = 169D95F81D203F4500E920CD /* emoticon-smile-7.png */; };
+		169D95FF1D2043F100E920CD /* mlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 169D95FA1D2043F100E920CD /* mlogo.png */; };
+		169D96001D2043F100E920CD /* plogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 169D95FB1D2043F100E920CD /* plogo.png */; };
+		169D96011D2043F100E920CD /* logo1.png in Resources */ = {isa = PBXBuildFile; fileRef = 169D95FC1D2043F100E920CD /* logo1.png */; };
+		169D96021D2043F100E920CD /* jlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 169D95FD1D2043F100E920CD /* jlogo.png */; };
+		169D96031D2043F100E920CD /* jlogo 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 169D95FE1D2043F100E920CD /* jlogo 2.png */; };
 		16C155031D1BC626004D0C52 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C155021D1BC626004D0C52 /* LogInViewController.swift */; };
 		16C155051D1BC634004D0C52 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C155041D1BC634004D0C52 /* SignUpViewController.swift */; };
 		16C155091D1C5D26004D0C52 /* VarelaRound-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 16C155081D1C5D26004D0C52 /* VarelaRound-Regular.otf */; };
@@ -66,6 +76,16 @@
 		0557D72BE1D6059F26C976FD /* Pods-MakestagramTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakestagramTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MakestagramTests/Pods-MakestagramTests.debug.xcconfig"; sourceTree = "<group>"; };
 		169D95EA1D1FEDA300E920CD /* hpeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = hpeHelper.swift; sourceTree = "<group>"; };
 		169D95EC1D1FF89200E920CD /* LocationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationHelper.swift; sourceTree = "<group>"; };
+		169D95F01D203A2F00E920CD /* greymapicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greymapicon.png; sourceTree = "<group>"; };
+		169D95F21D203A6E00E920CD /* 60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 60.png; sourceTree = "<group>"; };
+		169D95F41D203BA600E920CD /* Icon-Small-50@2x copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x copy.png"; sourceTree = "<group>"; };
+		169D95F61D203E6000E920CD /* pin-map-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pin-map-7.png"; sourceTree = "<group>"; };
+		169D95F81D203F4500E920CD /* emoticon-smile-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emoticon-smile-7.png"; sourceTree = "<group>"; };
+		169D95FA1D2043F100E920CD /* mlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mlogo.png; sourceTree = "<group>"; };
+		169D95FB1D2043F100E920CD /* plogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plogo.png; sourceTree = "<group>"; };
+		169D95FC1D2043F100E920CD /* logo1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo1.png; sourceTree = "<group>"; };
+		169D95FD1D2043F100E920CD /* jlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jlogo.png; sourceTree = "<group>"; };
+		169D95FE1D2043F100E920CD /* jlogo 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jlogo 2.png"; sourceTree = "<group>"; };
 		16C155021D1BC626004D0C52 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		16C155041D1BC634004D0C52 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		16C155081D1C5D26004D0C52 /* VarelaRound-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "VarelaRound-Regular.otf"; sourceTree = "<group>"; };
@@ -215,6 +235,11 @@
 			isa = PBXGroup;
 			children = (
 				16C155281D1E433B004D0C52 /* Makestagram-Bridging-Header.h */,
+				169D95F61D203E6000E920CD /* pin-map-7.png */,
+				169D95F81D203F4500E920CD /* emoticon-smile-7.png */,
+				169D95F01D203A2F00E920CD /* greymapicon.png */,
+				169D95F21D203A6E00E920CD /* 60.png */,
+				169D95F41D203BA600E920CD /* Icon-Small-50@2x copy.png */,
 				6277189C1B0A58E800AF5C6E /* Helpers */,
 				627718811B0A581600AF5C6E /* ViewControllers */,
 				62C8C1E51B06BD6500DC3EA7 /* AppDelegate.swift */,
@@ -232,6 +257,11 @@
 		62C8C1E31B06BD6500DC3EA7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				169D95FA1D2043F100E920CD /* mlogo.png */,
+				169D95FB1D2043F100E920CD /* plogo.png */,
+				169D95FC1D2043F100E920CD /* logo1.png */,
+				169D95FD1D2043F100E920CD /* jlogo.png */,
+				169D95FE1D2043F100E920CD /* jlogo 2.png */,
 				62C8C1E41B06BD6500DC3EA7 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -324,10 +354,11 @@
 				TargetAttributes = {
 					62C8C1DF1B06BD6500DC3EA7 = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = B833FK6YM3;
+						DevelopmentTeam = 7QQX7GNST9;
 					};
 					62C8C1F41B06BD6500DC3EA7 = {
 						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = 7QQX7GNST9;
 						TestTargetID = 62C8C1DF1B06BD6500DC3EA7;
 					};
 				};
@@ -357,9 +388,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				16C155091D1C5D26004D0C52 /* VarelaRound-Regular.otf in Resources */,
+				169D96031D2043F100E920CD /* jlogo 2.png in Resources */,
+				169D96001D2043F100E920CD /* plogo.png in Resources */,
+				169D95F31D203A6E00E920CD /* 60.png in Resources */,
 				62C8C1EB1B06BD6500DC3EA7 /* Main.storyboard in Resources */,
 				62C8C1F01B06BD6500DC3EA7 /* LaunchScreen.xib in Resources */,
+				169D96021D2043F100E920CD /* jlogo.png in Resources */,
 				62C8C1ED1B06BD6500DC3EA7 /* Images.xcassets in Resources */,
+				169D95F91D203F4500E920CD /* emoticon-smile-7.png in Resources */,
+				169D95FF1D2043F100E920CD /* mlogo.png in Resources */,
+				169D95F11D203A2F00E920CD /* greymapicon.png in Resources */,
+				169D95F71D203E6000E920CD /* pin-map-7.png in Resources */,
+				169D96011D2043F100E920CD /* logo1.png in Resources */,
+				169D95F51D203BA600E920CD /* Icon-Small-50@2x copy.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -658,6 +699,8 @@
 			baseConfigurationReference = 0557D72BE1D6059F26C976FD /* Pods-MakestagramTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -670,6 +713,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Make-School.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = round;
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/round.app/round";
 			};
 			name = Debug;
@@ -679,6 +723,8 @@
 			baseConfigurationReference = 24C68E01DC31F4AF9B609B9A /* Pods-MakestagramTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -687,6 +733,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Make-School.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = round;
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/round.app/round";
 			};
 			name = Release;

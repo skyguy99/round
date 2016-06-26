@@ -59,7 +59,7 @@ class ParseHelper {
     
     static func getUsersAtHomeArray(completionBlock: PFQueryArrayResultBlock){
         let query = PFQuery(className: "hpePresentUsers")
-        // query.whereKey("atHome", equalTo: "YES")
+         query.whereKey("atHome", equalTo: "YES")
         query.findObjectsInBackgroundWithBlock(completionBlock)
         
         

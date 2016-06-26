@@ -29,10 +29,11 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
         Constants.myLocation = locValue
         
         
+        fillUserArray()
 
         isUserHome()
         
-        
+
         updateUserAtHome()
 
     }
@@ -53,7 +54,6 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
         super.viewDidLoad()
         print("view did load")
         
-        fillUserArray()
 
 
         
@@ -79,18 +79,20 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
         print("CLLocationManager enabled")
         
     }
-    
-    
+
     
     func isUserHome() {                 // Algo determining if user is within "home" area
-        let nine = 0.0009
+        let nine = 0.00011
         if Constants.myDormLocation.latitude > Constants.myLocation.latitude {
             let latDiff = Constants.myDormLocation.latitude - Constants.myLocation.latitude
+            print("latdiff \(latDiff)")
             if latDiff < nine {
                 // The latitudes are close to eachother
                 // Check if longitudes are close to eachother also
                 if Constants.myDormLocation.longitude > Constants.myLocation.longitude {
                     let longDiff = Constants.myDormLocation.longitude - Constants.myLocation.longitude
+                    print("longDiff \(longDiff)")
+
                     if longDiff < nine {
                         // Longitudes are close to eachother also
                         atHome = true
@@ -99,6 +101,8 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
                 }
                 else {
                     let longDiff = Constants.myLocation.longitude - Constants.myDormLocation.longitude
+                    print("longDiff \(longDiff)")
+
                     if longDiff < nine {
                         // Longitudes are close to eachother also
                         atHome = true
@@ -120,6 +124,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
             
             
             let latDiff = Constants.myLocation.latitude - Constants.myDormLocation.latitude
+            print("latdiff \(latDiff)")
             if latDiff < nine {
                 // The latitudes are close to eachother
                 // Check if longitudes are close to eachother also
@@ -164,7 +169,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
             let query = PFUser.query()!
             query.whereKey("atHome", equalTo: "YES")
             let v = try! query.findObjects()
-            print(v)
+//            print(v)
             if(v.count > 0){
             for user in v {
                 self.usersArray.append((user as? PFUser)!)
@@ -179,27 +184,25 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
     func updateUserAtHome() {
         
         
-        usersArray = []
-        let me = PFUser.currentUser()
-        usersArray.append(me!)
-        let query = PFUser.query()!
+//        usersArray = []
+//
+//        let query = PFUser.query()!
+//        query.whereKey("atHome", equalTo: "YES")
+//        let v = try! query.findObjects()
+//        print(v)
+//        
+//        ParseHelper.getUsersAtHomeArray{ (results: [PFObject]?, error: NSError?) -> Void in
+//            if let results = results {
+//                for user in results {
+//                    self.usersArray.append((user as? PFUser)!)
+//                }
+//            }
+//            else{
+//                print("help me")
+//            }
+//        }
         
-        let v = try! query.findObjects()
-        print(v)
-        print("JJDFJDJD")
-        
-        ParseHelper.getUserArray{ (results: [PFObject]?, error: NSError?) -> Void in
-            if let results = results {
-                for user in results {
-                    self.usersArray.append((user as? PFUser)!)
-                }
-            }
-            else{
-                print("help me")
-            }
-        }
-        
-        tableView.reloadData()
+//        tableView.reloadData()
         
         
 //         fillUserArray()
@@ -213,14 +216,16 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
                 // Add to the array
                 usersArray.append(user!)
                 user?.saveInBackground()
-                 print(user!["atHome"])
+//                 print(user!["atHome"])
                 
                 
             }
             else {
-                // do nothing bc hes already in the array
+            print("USER NOT HOME")
+
+//                // do nothing bc hes already in the array
             }
-            
+//
         }
             
         else {
@@ -233,10 +238,11 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
                 user?.saveInBackground()
             }
             else {
+                print("USER NOT HOME")
                 // do nothing bc hes already out of the array
             }
             
-             print(user!["atHome"])
+//             print(user!["atHome"])
         }
         tableView.reloadData()
     }
@@ -321,6 +327,32 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
             let first = userAtHome["firstName"]
             let last = userAtHome["lastName"]
             cell.userFullNameLabel.text = String("\(first) \(last)")
+            
+            if userAtHome.username == "miriam"
+            {
+                cell.profileImage2.image = UIImage(named: "mlogo.png")
+            }
+            else if userAtHome.username == "justinjlee99"
+            {
+                cell.profileImage2.image = UIImage(named: "jlogo.png")
+            }
+            else if userAtHome.username  == "Patrick"
+            {
+                cell.profileImage2.image = UIImage(named: "plogo.png")
+            }
+            else if userAtHome.username == "skyyguy"
+            {
+                cell.profileImage2.image = UIImage(named: "logo1.png")
+            }
+                
+            else if userAtHome.username == "Randy"
+            {
+                cell.profileImage2.image = UIImage(named: "jlogo 2.png")
+            }
+            else{
+                cell.profileImage2.image = UIImage(named: "round_logo")
+            }
+
             
             // return cell
             return cell

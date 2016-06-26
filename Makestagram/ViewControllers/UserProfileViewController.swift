@@ -32,7 +32,6 @@ class UserProfileViewController: UIViewController {
     var viewGestureRecognizer = UITapGestureRecognizer()
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,17 +56,10 @@ class UserProfileViewController: UIViewController {
         view.addGestureRecognizer(viewGestureRecognizer)
         viewGestureRecognizer.enabled = false
         
-        
-        /*let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
-         profileView.userInteractionEnabled = true
-         profileView.addGestureRecognizer(tapGestureRecognizer)*/
-        
-        //usernameLabel.text = user?.username
-        //nameLabel.text = first+" "+last
-        
-        
-        //view.backgroundColor = UIColor.redColor()*/
-        
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     
@@ -82,6 +74,7 @@ class UserProfileViewController: UIViewController {
                     self.profileView.hidden = true
                     self.viewGestureRecognizer.enabled = false
                     self.shadowView.hidden = true
+                    //self.keyboardGestureRecognizer.enabled = false
                 }
         });
         print("remove")
@@ -167,6 +160,7 @@ class UserProfileViewController: UIViewController {
         case SearchMode
     }
     
+    
     // whenever the state changes, perform one of the two queries and update the list
     var state: State = .DefaultMode {
         didSet {
@@ -175,9 +169,12 @@ class UserProfileViewController: UIViewController {
             case .SearchMode:
                 let searchText = userSearch?.text ?? ""
                 query = ParseHelper.searchUsers(searchText, completionBlock:updateList)
+                //keyboardGestureRecognizer.enabled = true //test
+                
                 
             case .DefaultMode:
                 print("nothing")
+                //keyboardGestureRecognizer.enabled = false
             }
         }
     }
@@ -233,11 +230,38 @@ extension UserProfileViewController: UITableViewDelegate {
                 self.profileView.transform = CGAffineTransformMakeScale(1.0, 1.0)
                 self.viewGestureRecognizer.enabled = true
                 self.shadowView.hidden = false
+                self.dismissKeyboard()
+                //self.keyboardGestureRecognizer.enabled = true
             });
         }
         usernameLabel?.text = user.username
         nameLabel?.text = "\(user["firstName"]) \(user["lastName"])"
         locationLabel.text = "Dorm \(user["roomNumber"])"
+        
+        if user.username == "miriam"
+        {
+            profileImage.image = UIImage(named: "mlogo.png")
+                 }
+        else if user.username == "justinjlee99"
+        {
+            profileImage.image = UIImage(named: "jlogo.png")
+        }
+        else if user.username == "Patrick"
+        {
+            profileImage.image = UIImage(named: "plogo.png")
+        }
+        else if user.username == "skyyguy"
+        {
+            profileImage.image = UIImage(named: "logo1.png")
+        }
+        
+        else if user.username == "Randy"
+        {
+            profileImage.image = UIImage(named: "jlogo 2.png")
+        }
+        else{
+            profileImage.image = UIImage(named: "round_logo")
+        }
         
         // set labels and imageview below
         

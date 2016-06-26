@@ -12,7 +12,7 @@ class UserTableViewCell: UITableViewCell {
 
     @IBOutlet weak var userFullNameLabel: UILabel!
     @IBOutlet weak var userDetailsLabel: UILabel!
-    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var profileImage2: UIImageView!
            override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
