@@ -434,7 +434,6 @@
                                         <accessibility key="accessibilityConfiguration" identifier="userCell"/>
                                         <connections>
                                             <outlet property="profileImage2" destination="PLr-bB-sk3" id="tZy-OG-OTL"/>
-                                            <outlet property="userDetailsLabel" destination="dZJ-pA-1wG" id="52o-B5-dF6"/>
                                             <outlet property="userFullNameLabel" destination="j2y-XZ-BaQ" id="7jc-Rh-uCL"/>
                                         </connections>
                                     </tableViewCell>

@@ -190,24 +190,6 @@ class UserProfileViewController: UIViewController {
         
     }
     
-    // MARK: View Lifecycle
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        state = .DefaultMode
-        
-        // fill the cache of a user's followees
-        ParseHelper.getFollowingUsersForUser(PFUser.currentUser()!) { (results: [PFObject]?, error: NSError?) -> Void in
-            let relations = results ?? []
-            // use map to extract the User from a Follow object
-            self.followingUsers = relations.map {
-                $0.objectForKey(ParseHelper.ParseFollowToUser) as! PFUser
-            }
-            
-        }
-    }
-    
 }
 
 // MARK: TableView Data Source
@@ -246,7 +228,7 @@ extension UserProfileViewController: UITableViewDelegate {
         {
             profileImage.image = UIImage(named: "jlogo.png")
         }
-        else if user.username == "Patrick"
+        else if user.username == "patrick "
         {
             profileImage.image = UIImage(named: "plogo.png")
         }
@@ -327,17 +309,17 @@ extension UserProfileViewController: UISearchBarDelegate {
 extension UserProfileViewController: FriendSearchTableViewCellDelegate {
     
     func cell(cell: UserSearchTableCell, didSelectFollowUser user: PFUser) {
-        ParseHelper.addFollowRelationshipFromUser(PFUser.currentUser()!, toUser: user)
-        // update local cache
-        followingUsers?.append(user)
+//        ParseHelper.addFollowRelationshipFromUser(PFUser.currentUser()!, toUser: user)
+//        // update local cache
+//        followingUsers?.append(user)
     }
-    
+//
     func cell(cell: UserSearchTableCell, didSelectUnfollowUser user: PFUser) {
-        if let followingUsers = followingUsers {
-            ParseHelper.removeFollowRelationshipFromUser(PFUser.currentUser()!, toUser: user)
-            // update local cache
-            self.followingUsers = followingUsers.filter({$0 != user})
-        }
+//        if let followingUsers = followingUsers {
+//            ParseHelper.removeFollowRelationshipFromUser(PFUser.currentUser()!, toUser: user)
+//            // update local cache
+//            self.followingUsers = followingUsers.filter({$0 != user})
+//        }
     }
     
     /*

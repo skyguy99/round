@@ -8,9 +8,9 @@
 
 import UIKit
 import Parse
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import ParseUI
-import ParseFacebookUtilsV4
+//import ParseFacebookUtilsV4
 import MapKit
 
 
@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    }
 //
 //    
-     // PFUser.logOut()
+//      PFUser.logOut()
     
     // check if we have logged in user
     let startViewController: UIViewController
@@ -98,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
     func applicationDidBecomeActive(application: UIApplication) {
-        FBSDKAppEvents.activateApp()
+//        FBSDKAppEvents.activateApp()
     }
 
   func applicationWillTerminate(application: UIApplication) {

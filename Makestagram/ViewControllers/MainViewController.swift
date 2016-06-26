@@ -14,7 +14,6 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
     
     
     
-    @IBOutlet weak var userDetails: UILabel!
     @IBOutlet weak var userFullName: UILabel!
     
     var atHome: Bool = false
@@ -29,12 +28,12 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
         Constants.myLocation = locValue
         
         
-        fillUserArray()
 
         isUserHome()
         
-
         updateUserAtHome()
+        
+        fillUserArray()
 
     }
     
@@ -82,7 +81,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
 
     
     func isUserHome() {                 // Algo determining if user is within "home" area
-        let nine = 0.00011
+        let nine = 0.00005
         if Constants.myDormLocation.latitude > Constants.myLocation.latitude {
             let latDiff = Constants.myDormLocation.latitude - Constants.myLocation.latitude
             print("latdiff \(latDiff)")
@@ -96,7 +95,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
                     if longDiff < nine {
                         // Longitudes are close to eachother also
                         atHome = true
-                        print("Welcome Home")
+//                        print("Welcome Home")
                     }
                 }
                 else {
@@ -106,7 +105,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
                     if longDiff < nine {
                         // Longitudes are close to eachother also
                         atHome = true
-                        print("Welcome Home")
+//                        print("Welcome Home")
 
                         
                     }
@@ -184,28 +183,6 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
     func updateUserAtHome() {
         
         
-//        usersArray = []
-//
-//        let query = PFUser.query()!
-//        query.whereKey("atHome", equalTo: "YES")
-//        let v = try! query.findObjects()
-//        print(v)
-//        
-//        ParseHelper.getUsersAtHomeArray{ (results: [PFObject]?, error: NSError?) -> Void in
-//            if let results = results {
-//                for user in results {
-//                    self.usersArray.append((user as? PFUser)!)
-//                }
-//            }
-//            else{
-//                print("help me")
-//            }
-//        }
-        
-//        tableView.reloadData()
-        
-        
-//         fillUserArray()
         
         if atHome == true {
             //User is HOME!!!
@@ -215,6 +192,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
             if !usersArray.contains(user!) {
                 // Add to the array
                 usersArray.append(user!)
+                
                 user?.saveInBackground()
 //                 print(user!["atHome"])
                 
@@ -327,7 +305,6 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
             let first = userAtHome["firstName"]
             let last = userAtHome["lastName"]
             cell.userFullNameLabel.text = String("\(first) \(last)")
-            
             if userAtHome.username == "miriam"
             {
                 cell.profileImage2.image = UIImage(named: "mlogo.png")
@@ -336,7 +313,7 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
             {
                 cell.profileImage2.image = UIImage(named: "jlogo.png")
             }
-            else if userAtHome.username  == "Patrick"
+            else if userAtHome.username  == "patrick "
             {
                 cell.profileImage2.image = UIImage(named: "plogo.png")
             }

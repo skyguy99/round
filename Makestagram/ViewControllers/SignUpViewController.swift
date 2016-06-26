@@ -76,7 +76,7 @@ class SignUpViewController: UIViewController {
         user.email = email.text
         user["firstName"] = firstName.text
         user["lastName"] = lastName.text
-        user["fullName"] = "\(firstName.text) \(lastName.text)"
+        user["fullName"] = "\(firstName!.text) \(lastName!.text)"
         user["atHome"] = "NO"
         user["Details"] = "" // Tommorrow
         
