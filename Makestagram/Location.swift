@@ -3,7 +3,7 @@
 //  Makestagram
 //
 //  Created by Randy Perecman on 6/23/16.
-//  Copyright © 2016 Make School. All rights reserved.
+//  Copyright © 2016 Round. All rights reserved.
 //
 
 import Foundation

@@ -10,7 +10,7 @@ import UIKit
 import Parse
 
 class SignUpViewController: UIViewController {
-
+    
     
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
@@ -25,12 +25,12 @@ class SignUpViewController: UIViewController {
     func dismissKeyboard() {
         view.endEditing(true)
     }                                                       // let keyboard fall when push anywhere
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-      
+        
         let tap: UITapGestureRecognizer?
         tap = UITapGestureRecognizer(target: self, action: #selector(LogInViewController.dismissKeyboard))
         view.addGestureRecognizer(tap!)
@@ -61,22 +61,24 @@ class SignUpViewController: UIViewController {
         }
         
     }
-
-
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     @IBAction func signUpPressed(sender: UIButton) {
-        var user = PFUser()
+        let user = PFUser()
         user.username = username.text
         user.password = password.text
+        user["emailVerified"] = true
         user.email = email.text
         user["firstName"] = firstName.text
         user["lastName"] = lastName.text
-        user["atHome"] = "no"
-        user["Details"] = ""
+        user["fullName"] = "\(firstName.text) \(lastName.text)"
+        user["atHome"] = "NO"
+        user["Details"] = "" // Tommorrow
         
         // other fields can be set just like with PFObject
         // user["phone"] = "415-392-0202"
@@ -85,8 +87,8 @@ class SignUpViewController: UIViewController {
             
             user.signUpInBackgroundWithBlock {
                 (succeeded: Bool, error: NSError?) -> Void in
-                if let error = error {
-                    let errorString = error.userInfo["error"] as? NSString
+                if error != nil {
+//                    _ = error.userInfo["error"] as? NSString // should delete
                     // Show the errorString somewhere and let the user try again.
                     let alert = UIAlertController(title: "oops", message: "That username/email is taken, try a different one.", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
@@ -113,14 +115,14 @@ class SignUpViewController: UIViewController {
 
 
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+/*
+ // MARK: - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+ // Get the new view controller using segue.destinationViewController.
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 

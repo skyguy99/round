@@ -10,12 +10,13 @@ import UIKit
 import Parse
 
 class UserProfileViewController: UIViewController {
-
+    
+    @IBOutlet var shadowView: UIView!
     @IBOutlet var profileView: UIView!
     @IBOutlet var profileImage: UIImageView!
-    @IBOutlet var usernameLabel: UILabel!
-    @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var emailLabel: UILabel!
+    @IBOutlet var usernameLabel: UILabel?
+    @IBOutlet var nameLabel: UILabel?
+    @IBOutlet var locationLabel: UILabel!
     
     @IBOutlet var userSearch: UISearchBar!
     @IBOutlet var tableView: UITableView!
@@ -23,50 +24,82 @@ class UserProfileViewController: UIViewController {
     @IBAction func editInfo(sender: AnyObject) {
         print("edit info")
         
-        profileView.hidden = false
+        //profileView.hidden = false
     }
     
     let imagePicker = UIImagePickerController()
     
+    var viewGestureRecognizer = UITapGestureRecognizer()
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        shadowView.hidden = true
+        profileView.layer.cornerRadius = 8
         profileView.hidden = true;
+        
+        userSearch.barTintColor = colorWithHexString("F46476")
+        
         // Do any additional setup after loading the view.
         print("Users loaded")
         
-        var user = PFUser.currentUser();
-        print(user);
         
-        var first = String(user!["firstName"])
-        var last = String (user!["lastName"])
+        // let user = PFUser.currentUser(); should delete
+        //print(user);
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
-        profileView.userInteractionEnabled = true
-        profileView.addGestureRecognizer(tapGestureRecognizer)
+//        var first = String(user!["firstName"]) // should delete
+//        var last = String (user!["lastName"])   // should delete
         
-        usernameLabel.text = user?.username
-        nameLabel.text = first+" "+last
+        viewGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(UserProfileViewController.removeProfileView(_:)))
+        view.userInteractionEnabled = true
+        view.addGestureRecognizer(viewGestureRecognizer)
+        viewGestureRecognizer.enabled = false
+        
+        
+        /*let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("imageTapped:"))
+         profileView.userInteractionEnabled = true
+         profileView.addGestureRecognizer(tapGestureRecognizer)*/
+        
+        //usernameLabel.text = user?.username
+        //nameLabel.text = first+" "+last
         
         
         //view.backgroundColor = UIColor.redColor()*/
         
     }
     
+    
+    func removeProfileView(sender: AnyObject)
+    {
+        UIView.animateWithDuration(0.25, animations: {
+            self.profileView.transform = CGAffineTransformMakeScale(1.3, 1.3)
+            self.profileView.alpha = 0.0;
+            }, completion:{(finished : Bool)  in
+                if (finished)
+                {
+                    self.profileView.hidden = true
+                    self.viewGestureRecognizer.enabled = false
+                    self.shadowView.hidden = true
+                }
+        });
+        print("remove")
+    }
+    
     func imageTapped(img: AnyObject) {
         print("change profile image")
         
         /*if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum){
-            print("Button capture")
-            
-            
-            //imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum;
-            imagePicker.allowsEditing = false
-            
-            self.presentViewController(imagePicker, animated: true, completion: nil)
-        }*/
+         print("Button capture")
+         
+         
+         //imagePicker.delegate = self
+         imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum;
+         imagePicker.allowsEditing = false
+         
+         self.presentViewController(imagePicker, animated: true, completion: nil)
+         }*/
     }
     
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
@@ -84,16 +117,16 @@ class UserProfileViewController: UIViewController {
     }
     
     /*func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        //         return usersPresent.count
-        return 1
-        
-    }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("userSearchCell", forIndexPath: indexPath)
-        return cell
-    }*/
-
+     // #warning Incomplete implementation, return the number of rows
+     //         return usersPresent.count
+     return 1
+     
+     }
+     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+     let cell = tableView.dequeueReusableCellWithIdentifier("userSearchCell", forIndexPath: indexPath)
+     return cell
+     }*/
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -138,12 +171,13 @@ class UserProfileViewController: UIViewController {
     var state: State = .DefaultMode {
         didSet {
             switch (state) {
-            case .DefaultMode:
-                query = ParseHelper.allUsers(updateList)
                 
             case .SearchMode:
                 let searchText = userSearch?.text ?? ""
                 query = ParseHelper.searchUsers(searchText, completionBlock:updateList)
+                
+            case .DefaultMode:
+                print("nothing")
             }
         }
     }
@@ -181,6 +215,35 @@ class UserProfileViewController: UIViewController {
 
 // MARK: TableView Data Source
 
+extension UserProfileViewController: UITableViewDelegate {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let user = self.users![indexPath.row]
+        
+        if(profileView.hidden)
+        {
+            profileView.hidden = false
+            
+            //profileView.transform = CGAffineTransformMakeScale(1.3, 1.3)
+            
+            self.profileView.transform = CGAffineTransformMakeScale(1.3, 1.3)
+            self.profileView.alpha = 0.0;
+            UIView.animateWithDuration(0.25, animations: {
+                self.profileView.alpha = 1.0
+                self.profileView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                self.viewGestureRecognizer.enabled = true
+                self.shadowView.hidden = false
+            });
+        }
+        usernameLabel?.text = user.username
+        nameLabel?.text = "\(user["firstName"]) \(user["lastName"])"
+        locationLabel.text = "Dorm \(user["roomNumber"])"
+        
+        // set labels and imageview below
+        
+    }
+}
+
 extension UserProfileViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -193,11 +256,11 @@ extension UserProfileViewController: UITableViewDataSource {
         let user = users![indexPath.row]
         cell.user = user
         
-        if let followingUsers = followingUsers {
-            // check if current user is already following displayed user
-            // change button appereance based on result
-            cell.canFollow = !followingUsers.contains(user)
-        }
+        /*if let followingUsers = followingUsers {
+         // check if current user is already following displayed user
+         // change button appereance based on result
+         cell.canFollow = !followingUsers.contains(user)
+         }*/
         
         cell.delegate = self
         
@@ -212,6 +275,14 @@ extension UserProfileViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
         state = .SearchMode
+        
+        for ob: UIView in ((searchBar.subviews[0] )).subviews {
+            
+            if let z = ob as? UIButton {
+                let btn: UIButton = z
+                btn.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            }
+        }
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
@@ -244,15 +315,15 @@ extension UserProfileViewController: FriendSearchTableViewCellDelegate {
             self.followingUsers = followingUsers.filter({$0 != user})
         }
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

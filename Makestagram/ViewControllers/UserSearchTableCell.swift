@@ -14,10 +14,11 @@ protocol FriendSearchTableViewCellDelegate: class {
     func cell(cell: UserSearchTableCell, didSelectUnfollowUser user: PFUser)
 }
 
+
 class UserSearchTableCell: UITableViewCell {
 
     @IBOutlet var name: UILabel!
-    @IBOutlet var settingsBtn: UIButton!
+   
     
     weak var delegate: FriendSearchTableViewCellDelegate?
     
@@ -28,15 +29,18 @@ class UserSearchTableCell: UITableViewCell {
         
         didSet {
             name.text = "\(user!["firstName"]) \(user!["lastName"])"
+            
             let current = PFUser.currentUser()
             
-            if(name.text != "\(current!["firstName"]) \(current!["lastName"])")
+            if(name.text == "\(current!["firstName"]) \(current!["lastName"])")
             {
-                settingsBtn.hidden = true
-            }
-            else {
+                
                 self.backgroundColor = UIColor(red: 241/255, green: 73/255, blue: 97/255, alpha: 1)
                 name.textColor = UIColor.whiteColor()
+            }
+            else {
+                self.backgroundColor = UIColor.whiteColor()
+                name.textColor = UIColor(red: 241/255, green: 73/255, blue: 97/255, alpha: 1)
                 
             }
 
@@ -59,7 +63,15 @@ class UserSearchTableCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+       
+        
+//        var tapGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("cellTapped:"))
+//        self.userInteractionEnabled = true
+//        self.addGestureRecognizer(tapGestureRecognizer)
+        
         }
+    
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

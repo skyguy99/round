@@ -34,7 +34,7 @@ class ParseHelper {
     
     // User Relation
     static let ParseUserUsername      = "username"
-    
+    static let ParseUserArray         = "userArray"
     
     /**
      Fetches all users that the provided user is following.
@@ -49,6 +49,26 @@ class ParseHelper {
         query.findObjectsInBackgroundWithBlock(completionBlock)
     }
     
+    
+    static func getUserArray(completionBlock: PFQueryArrayResultBlock){
+        let query = PFUser.query()!
+        
+        query.findObjectsInBackgroundWithBlock(completionBlock)
+
+    }
+    
+    static func getUsersAtHomeArray(completionBlock: PFQueryArrayResultBlock){
+        let query = PFQuery(className: "hpePresentUsers")
+        // query.whereKey("atHome", equalTo: "YES")
+        query.findObjectsInBackgroundWithBlock(completionBlock)
+        
+        
+       // query.findObjectsInBackgroundWithBlock(completionBlock)
+    
+        
+    }
+    
+
     /**
      Establishes a follow relationship between two users.
      
@@ -94,17 +114,17 @@ class ParseHelper {
      
      :returns: The generated PFQuery
      */
-    static func allUsers(completionBlock: PFQueryArrayResultBlock) -> PFQuery {
-        let query = PFUser.query()!
-        // exclude the current user
-        //query.whereKey(ParseHelper.ParseUserUsername)
-        query.orderByAscending(ParseHelper.ParseUserUsername)
-        query.limit = 20
-        
-        query.findObjectsInBackgroundWithBlock(completionBlock)
-        
-        return query
-    }
+//    static func allUsers(completionBlock: PFQueryArrayResultBlock) -> PFQuery {
+//        let query = PFUser.query()!
+//        // exclude the current user
+//        //query.whereKey(ParseHelper.ParseUserUsername)
+//        query.orderByAscending(ParseHelper.ParseUserUsername)
+//        query.limit = 20
+//        
+//        query.findObjectsInBackgroundWithBlock(completionBlock)
+//        
+//        return query
+//    }
     
     /**
      Fetch users whose usernames match the provided search term.

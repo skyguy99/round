@@ -10,25 +10,29 @@ import Foundation
 import MapKit
 import UIKit
 import Parse
+//
+//class LocationHelper {
+//    
+//    
+//    static func retrieveHomeUsers(completionBlock: PFUserResultBlock) {
+//        
+//        let query = PFQuery(className: "User")
+//        query.whereKey("atHome", equalTo: "YES")
+//        query.findObjectsInBackgroundWithBlock({ (results: [PFObject]?, error: NSError?) -> Void in
+//            
+//            if error == nil {
+//                var usersHomeArray = [PFUser]()
+//                
+//
+//            }
+//            
+//    
+//        })
+//    }
+//    
+//    
+//    
 
-class LocationHelper {
-    
-    
-    static func retrieveHomeUsers(completionBlock: PFUserResultBlock) {
-        
-        let query = PFQuery(className: "User")
-        query.whereKey("atHome", equalTo: "YES")
-        query.findObjectsInBackgroundWithBlock({ (results: [PFObject]?, error: NSError?) -> Void in
-            
-            if error == nil {
-                var usersHomeArray = [PFUser]()
-                
-
-            }
-            
-    
-        })
-    }
     
     
     
@@ -38,8 +42,3 @@ class LocationHelper {
     
     
     
-    
-    
-    
-    
-}

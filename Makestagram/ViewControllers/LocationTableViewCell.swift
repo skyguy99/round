@@ -13,7 +13,8 @@ class LocationTableViewCell: UITableViewCell {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var addressLabel: UILabel!
-    @IBOutlet weak var usersPresentLabel: UILabel!
+    @IBOutlet weak var peoplePresentLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -13,6 +13,7 @@ import CoreLocation
 class MainViewController: UIViewController, CLLocationManagerDelegate, UITableViewDataSource, MKMapViewDelegate, UITableViewDelegate {
     
     
+    
     @IBOutlet weak var userDetails: UILabel!
     @IBOutlet weak var userFullName: UILabel!
     
@@ -20,14 +21,20 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
     
     // Manages location of user
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        
         print("My Location = \(locValue.latitude) \(locValue.longitude)")
         print("Dorm Location = \(Constants.myDormLocation.latitude) \(Constants.myDormLocation.longitude)")
         Constants.myLocation = locValue
         
         
+
         isUserHome()
-        fillUserArray()
+        
+        
+        updateUserAtHome()
+
     }
     
     
@@ -38,44 +45,73 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
     
     var usersArray: [PFUser] = []
     
-    func isUserHome() {
-        var one = 0.001
-        var two = 0.0002
-        var three = 0.0003
-        var four = 0.0004
-        var five = 0.0005
-        var six = 0.0006
-        var seven = 0.0007
-        var eight = 0.0008
-        var nine = 0.0009
+    
+    
+    
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        print("view did load")
         
+        fillUserArray()
+
 
         
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
+        UIApplication.sharedApplication().statusBarHidden = false
+      //  presentTotalLabel.text = "\(usersArray.count) people present"
+         setStatusBarBackgroundColor((UIColor(colorLiteralRed: 244.0/255, green: 100.0/255, blue: 118.0/255, alpha: 1)))
         
+        // hardcoded value of 1140 Enterprise Way
+        // values for user
+        // Ask for Authorisation from the User.
+        Constants.locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        Constants.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            Constants.locationManager.delegate = self
+            Constants.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            Constants.locationManager.startUpdatingLocation()
+        }
+        
+        print("CLLocationManager enabled")
+        
+    }
+    
+    
+    
+    func isUserHome() {                 // Algo determining if user is within "home" area
+        let nine = 0.0009
         if Constants.myDormLocation.latitude > Constants.myLocation.latitude {
-            var latDiff = Constants.myDormLocation.latitude - Constants.myLocation.latitude
+            let latDiff = Constants.myDormLocation.latitude - Constants.myLocation.latitude
             if latDiff < nine {
                 // The latitudes are close to eachother
                 // Check if longitudes are close to eachother also
                 if Constants.myDormLocation.longitude > Constants.myLocation.longitude {
-                    var longDiff = Constants.myDormLocation.longitude - Constants.myLocation.longitude
+                    let longDiff = Constants.myDormLocation.longitude - Constants.myLocation.longitude
                     if longDiff < nine {
                         // Longitudes are close to eachother also
                         atHome = true
+                        print("Welcome Home")
                     }
                 }
                 else {
-                    var longDiff = Constants.myLocation.longitude - Constants.myDormLocation.longitude
+                    let longDiff = Constants.myLocation.longitude - Constants.myDormLocation.longitude
                     if longDiff < nine {
                         // Longitudes are close to eachother also
                         atHome = true
+                        print("Welcome Home")
+
                         
                     }
                 }
             }
             else {
                 // the latitudes are NOT close to eachother
-                atHome = true // should be false
+                atHome = false // should be false
+                print("You arent home")
                 
             }
         }
@@ -83,53 +119,106 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
             
             
             
-            var latDiff = Constants.myLocation.latitude - Constants.myDormLocation.latitude
+            let latDiff = Constants.myLocation.latitude - Constants.myDormLocation.latitude
             if latDiff < nine {
                 // The latitudes are close to eachother
                 // Check if longitudes are close to eachother also
                 if Constants.myDormLocation.longitude > Constants.myLocation.longitude {
-                    var longDiff = Constants.myDormLocation.longitude - Constants.myLocation.longitude
+                    let longDiff = Constants.myDormLocation.longitude - Constants.myLocation.longitude
                     if longDiff < nine {
                         // Longitudes are close to eachother also
                         atHome = true
+                        print("Welcome Home")
+
                         
                     }
                 }
                 else {
-                    var longDiff = Constants.myLocation.longitude - Constants.myDormLocation.longitude
+                    let longDiff = Constants.myLocation.longitude - Constants.myDormLocation.longitude
                     if longDiff < nine {
                         // Longitudes are close to eachother also
                         atHome = true
+                        print("Welcome Home")
+
                         
                     }
                 }
             }
             else {
                 // the latitudes are NOT close to eachother
-                atHome = true // should be false
+                atHome = false // should be false
+                print("You arent home")
                 
             }
         }
         
-
         
-       
-
-
+        
+        
+        
+        
     }
-    func fillUserArray() {
+        func fillUserArray() {
+            usersArray = []
+            
+            let query = PFUser.query()!
+            query.whereKey("atHome", equalTo: "YES")
+            let v = try! query.findObjects()
+            print(v)
+            if(v.count > 0){
+            for user in v {
+                self.usersArray.append((user as? PFUser)!)
+            }
+            
+            }
+    
+            tableView.reloadData()
+        }
+    
+    
+    func updateUserAtHome() {
+        
+        
+        usersArray = []
+        let me = PFUser.currentUser()
+        usersArray.append(me!)
+        let query = PFUser.query()!
+        
+        let v = try! query.findObjects()
+        print(v)
+        print("JJDFJDJD")
+        
+        ParseHelper.getUserArray{ (results: [PFObject]?, error: NSError?) -> Void in
+            if let results = results {
+                for user in results {
+                    self.usersArray.append((user as? PFUser)!)
+                }
+            }
+            else{
+                print("help me")
+            }
+        }
+        
+        tableView.reloadData()
+        
+        
+//         fillUserArray()
+        
         if atHome == true {
-            //User is HOME!!! Do we add him to the array??
+            //User is HOME!!!
             print("USER IS HOME")
-            user!["atHome"] = "YES"
+            user!["atHome"] = "YES"        //  ->>>>>>>>>>>>>>>>>>>>>>>>>>>> PARSE
+            // Do we add him to the array??
             if !usersArray.contains(user!) {
                 // Add to the array
                 usersArray.append(user!)
                 user?.saveInBackground()
-                print(user!["atHome"])
+                 print(user!["atHome"])
+                
+                
             }
             else {
-            // do nothing bc hes already in
+                // do nothing bc hes already in the array
             }
             
         }
@@ -137,146 +226,138 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
         else {
             //He is not home!!! Is he in the array??
             if usersArray.contains(user!) {
-                //Take out of array
+                // if he is, then take him out of the array
                 usersArray.removeAtIndex(usersArray.indexOf(user!)!)
+                print("User is not home")
+                user!["atHome"] = "No"          // ->>>>>>>>>>>>>>>>>>>>>>>> PARSE
+                user?.saveInBackground()
             }
             else {
-                // do nothing bc hes already out
+                // do nothing bc hes already out of the array
             }
-            print("nah")
-            user!["atHome"] = "No"
-            user?.saveInBackground()
-            print(user!["atHome"])
+            
+             print(user!["atHome"])
         }
         tableView.reloadData()
     }
-
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            
-          
-            
-            
-            // hardcoded value of 1140 Enterprise Way
-            let myDorm = Location(title: "11140 Enterprise Way", coordinate: CLLocationCoordinate2D(latitude: 37.410348, longitude: -122.036445))
-            // values for user
-            let myUser = Location(title: (PFUser.currentUser()?.username)!, coordinate: CLLocationCoordinate2D(latitude: Constants.myLocation.latitude, longitude: Constants.myLocation.longitude))
-            
-            // Ask for Authorisation from the User.
-            Constants.locationManager.requestAlwaysAuthorization()
-            
-            // For use in foreground
-            Constants.locationManager.requestWhenInUseAuthorization()
-            
-            if CLLocationManager.locationServicesEnabled() {
-                Constants.locationManager.delegate = self
-                Constants.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-                Constants.locationManager.startUpdatingLocation()
-            }
-            
-            
-            }
     
+    func setStatusBarBackgroundColor(color: UIColor) {
         
-        
-        //                func getMeterDistance() -> Double {
-        //                    let myDormCL: CLLocation = CLLocation(latitude: Constants.myDormLocation.latitude, longitude: Constants.myDormLocation.longitude)
-        //
-        //                    let myLocationCL: CLLocation = CLLocation(latitude: Constants.myLocation.latitude, longitude: Constants.myLocation.longitude)
-        //
-        //                    var distance = myDormCL.distanceFromLocation(myLocationCL)
-        //
-        //
-        //                    return distance
-        //                }
-        //       //         print("DISTANCE TO DORM: \(getMeterDistance())")
-        
-        
-        
-
-
-        override func didReceiveMemoryWarning() {
-            super.didReceiveMemoryWarning()
-            // Dispose of any resources that can be recreated.
+        guard let statusBar = UIApplication.sharedApplication().valueForKey("statusBarWindow")?.valueForKey("statusBar") as? UIView else
+        {
+            return
         }
-
-        // MARK: - Table view data source
         
-        //
-        //    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        //        return 200
+        statusBar.backgroundColor = color
+    }
     
-        //    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: - Table view data source
+    
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 200
+        }
+        else {
+            return 70
+        }
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, RETURN NUMBER OF SECTIONS
+        return 1
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        // #warning Incomplete implementation, RETURN THE NUMBER OF ROWS
         
-        // print("# of users \(usersArray.count)")
-        // return usersArray.count + 1
         
-        print("users in array: \(usersArray.count)")
-
+        print("users in home: \(usersArray.count)")
+        
         return usersArray.count + 1
     }
     
-        func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-            // #warning Incomplete implementation, return the number of sections
-            return 1
-        }
-        
     
-        func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-            if indexPath.row == 0 {
-                return 200
-            } else {
-                return 70
-            }
-        }
     
+    
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         
-        
-        func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("locationCell", forIndexPath: indexPath) as! LocationTableViewCell
+            
+            let center = CLLocationCoordinate2D(latitude: Constants.myDormLocation.latitude, longitude: Constants.myDormLocation.longitude)
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+            
+            let objectAnnotation = MKPointAnnotation()
+            objectAnnotation.coordinate = center
+            objectAnnotation.title = "HPE"
+            cell.mapView.addAnnotation(objectAnnotation)
             
             
-            if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("locationCell", forIndexPath: indexPath) as! LocationTableViewCell
-                
-                let center = CLLocationCoordinate2D(latitude: Constants.myDormLocation.latitude, longitude: Constants.myDormLocation.longitude)
-                let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-                
-                var objectAnnotation = MKPointAnnotation()
-                objectAnnotation.coordinate = center
-                objectAnnotation.title = "HPE"
-                cell.mapView.addAnnotation(objectAnnotation)
-                
-                
-                cell.mapView.setRegion(region, animated: true)
-                
-                return cell
-            }
-            else {
-                let cell: UserTableViewCell = tableView.dequeueReusableCellWithIdentifier("userCell", forIndexPath: indexPath) as! UserTableViewCell
-                
-                
-                let userAtHome = usersArray[indexPath.row - 1]
-                
-                print("Index is at: \(indexPath.row - 1)")
-                
-                cell.userFullNameLabel.text = String(userAtHome["firstName"])
-                print(cell.userFullNameLabel.text)
-                return cell
-                
-            }
+            cell.mapView.setRegion(region, animated: true)
+            
+            return cell
+        }
+        else {
+            let cell: UserTableViewCell = tableView.dequeueReusableCellWithIdentifier("userCell", forIndexPath: indexPath) as! UserTableViewCell
+            
+            let userAtHome = usersArray[indexPath.row - 1]
+            
+            // print("Index is at: \(indexPath.row - 1)")
+            
+            // edit label to full name of user
+            let first = userAtHome["firstName"]
+            let last = userAtHome["lastName"]
+            cell.userFullNameLabel.text = String("\(first) \(last)")
+            
+            // return cell
+            return cell
+            
+        }
     }
-        
-
+    
+    
     
     
 }
 
-        // MARK: - Navigation
+func colorWithHexString (hex:String) -> UIColor {
+    var cString:String = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).uppercaseString
+    
+    if (cString.hasPrefix("#")) {
+        cString = (cString as NSString).substringFromIndex(1)
+    }
+    
+    if (cString.characters.count != 6) {
+        return UIColor.grayColor()
+    }
+    
+    let rString = (cString as NSString).substringToIndex(2)
+    let gString = ((cString as NSString).substringFromIndex(2) as NSString).substringToIndex(2)
+    let bString = ((cString as NSString).substringFromIndex(4) as NSString).substringToIndex(2)
+    
+    var r:CUnsignedInt = 0, g:CUnsignedInt = 0, b:CUnsignedInt = 0;
+    NSScanner(string: rString).scanHexInt(&r)
+    NSScanner(string: gString).scanHexInt(&g)
+    NSScanner(string: bString).scanHexInt(&b)
+    
+    
+    return UIColor(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: CGFloat(1))
+}
+
+// MARK: - Navigation
 
 
 
