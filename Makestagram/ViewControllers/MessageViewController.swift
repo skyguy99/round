@@ -12,13 +12,15 @@ class MessageViewController: UIViewController {
 
     
     @IBOutlet weak var amIHomeLabel: UILabel!
+   // let storyboard = UIStoryboard(name: "Main", bundle: nil)
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        if atHome == true {
+       let mainviewcontroller = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MainViewController") as! MainViewController
+        if mainviewcontroller.atHome == true {
             amIHomeLabel.textColor = UIColor.whiteColor()
             amIHomeLabel.backgroundColor = UIColor.greenColor()
             amIHomeLabel.text = "Welcome home"
@@ -52,5 +54,6 @@ class MessageViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
 
 }

@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    }
 //
 //    
-  //   PFUser.logOut()
+     // PFUser.logOut()
     
     // check if we have logged in user
     let startViewController: UIViewController

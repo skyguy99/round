@@ -75,6 +75,8 @@ class SignUpViewController: UIViewController {
         user.email = email.text
         user["firstName"] = firstName.text
         user["lastName"] = lastName.text
+        user["atHome"] = "no"
+        user["Details"] = ""
         
         // other fields can be set just like with PFObject
         // user["phone"] = "415-392-0202"

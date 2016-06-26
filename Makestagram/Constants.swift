@@ -17,7 +17,7 @@ import MapKit
 
 class Constants {
    static var myLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: Constants.myLocation.latitude, longitude: Constants.myLocation.longitude)
-    static var myDormLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.776300, longitude: -122.418266)
+    static var myDormLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.410348, longitude: -122.036445)
     
     static let locationManager = CLLocationManager()
     
