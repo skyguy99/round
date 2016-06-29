@@ -24,7 +24,8 @@ class SignUpViewController: UIViewController {
     
     func dismissKeyboard() {
         view.endEditing(true)
-    }                                                       // let keyboard fall when push anywhere
+    }
+    // let keyboard fall when push anywhere
     
     
     override func viewDidLoad() {
@@ -77,7 +78,7 @@ class SignUpViewController: UIViewController {
         user["firstName"] = firstName.text
         user["lastName"] = lastName.text
         user["fullName"] = "\(firstName!.text) \(lastName!.text)"
-        user["atHome"] = "NO"
+        user["atHome"] = false
         user["Details"] = "" // Tommorrow
         
         // other fields can be set just like with PFObject

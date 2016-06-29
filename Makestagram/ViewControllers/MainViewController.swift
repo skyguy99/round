@@ -31,9 +31,11 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
 
         isUserHome()
         
-        updateUserAtHome()
         
         fillUserArray()
+        
+        updateUserAtHome()
+
 
     }
     
@@ -80,93 +82,27 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
     }
 
     
-    func isUserHome() {                 // Algo determining if user is within "home" area
-        let nine = 0.00005
-        if Constants.myDormLocation.latitude > Constants.myLocation.latitude {
-            let latDiff = Constants.myDormLocation.latitude - Constants.myLocation.latitude
-            print("latdiff \(latDiff)")
-            if latDiff < nine {
-                // The latitudes are close to eachother
-                // Check if longitudes are close to eachother also
-                if Constants.myDormLocation.longitude > Constants.myLocation.longitude {
-                    let longDiff = Constants.myDormLocation.longitude - Constants.myLocation.longitude
-                    print("longDiff \(longDiff)")
-
-                    if longDiff < nine {
-                        // Longitudes are close to eachother also
-                        atHome = true
-//                        print("Welcome Home")
-                    }
-                }
-                else {
-                    let longDiff = Constants.myLocation.longitude - Constants.myDormLocation.longitude
-                    print("longDiff \(longDiff)")
-
-                    if longDiff < nine {
-                        // Longitudes are close to eachother also
-                        atHome = true
-//                        print("Welcome Home")
-
-                        
-                    }
-                }
-            }
-            else {
-                // the latitudes are NOT close to eachother
-                atHome = false // should be false
-                print("You arent home")
-                
-            }
+    func isUserHome() {
+        
+        
+        if Constants.distance < 30.0 { // ofoucrse gonna say not home
+            user!["atHome"] = true
+            user?.saveInBackground() // save to change in back with block
+            
         }
-        else { // Initial if statement
-            
-            
-            
-            let latDiff = Constants.myLocation.latitude - Constants.myDormLocation.latitude
-            print("latdiff \(latDiff)")
-            if latDiff < nine {
-                // The latitudes are close to eachother
-                // Check if longitudes are close to eachother also
-                if Constants.myDormLocation.longitude > Constants.myLocation.longitude {
-                    let longDiff = Constants.myDormLocation.longitude - Constants.myLocation.longitude
-                    if longDiff < nine {
-                        // Longitudes are close to eachother also
-                        atHome = true
-                        print("Welcome Home")
-
-                        
-                    }
-                }
-                else {
-                    let longDiff = Constants.myLocation.longitude - Constants.myDormLocation.longitude
-                    if longDiff < nine {
-                        // Longitudes are close to eachother also
-                        atHome = true
-                        print("Welcome Home")
-
-                        
-                    }
-                }
-            }
-            else {
-                // the latitudes are NOT close to eachother
-                atHome = false // should be false
-                print("You arent home")
-                
-            }
+        else {
+            user!["atHome"] = false
+            user?.saveInBackground() // change to save in back with block
         }
         
-        
-        
-        
-        
+        print("At Home:  \(atHome)")
         
     }
         func fillUserArray() {
             usersArray = []
             
             let query = PFUser.query()!
-            query.whereKey("atHome", equalTo: "YES")
+            query.whereKey("atHome", equalTo: true)
             let v = try! query.findObjects()
 //            print(v)
             if(v.count > 0){
@@ -184,43 +120,39 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
         
         
         
-        if atHome == true {
+        if user!["atHome"] as! Bool == true {
             //User is HOME!!!
             print("USER IS HOME")
-            user!["atHome"] = "YES"        //  ->>>>>>>>>>>>>>>>>>>>>>>>>>>> PARSE
             // Do we add him to the array??
             if !usersArray.contains(user!) {
                 // Add to the array
                 usersArray.append(user!)
                 
                 user?.saveInBackground()
-//                 print(user!["atHome"])
+                
                 
                 
             }
             else {
-            print("USER NOT HOME")
-
-//                // do nothing bc hes already in the array
+                // do nothing bc hes already in the array
             }
-//
+
         }
             
         else {
+            print("User is not home")
+        
             //He is not home!!! Is he in the array??
             if usersArray.contains(user!) {
                 // if he is, then take him out of the array
                 usersArray.removeAtIndex(usersArray.indexOf(user!)!)
-                print("User is not home")
-                user!["atHome"] = "No"          // ->>>>>>>>>>>>>>>>>>>>>>>> PARSE
                 user?.saveInBackground()
             }
             else {
-                print("USER NOT HOME")
+                print("User is not home")
                 // do nothing bc hes already out of the array
             }
             
-//             print(user!["atHome"])
         }
         tableView.reloadData()
     }
@@ -277,7 +209,6 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("locationCell", forIndexPath: indexPath) as! LocationTableViewCell
             
@@ -299,11 +230,30 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
             
             let userAtHome = usersArray[indexPath.row - 1]
             
+            if(userAtHome.username == PFUser.currentUser()?.username)
+            {
+                
+                cell.layer.backgroundColor = UIColor(colorLiteralRed: 244.0/255, green: 100.0/255, blue: 118.0/255, alpha: 0.5).CGColor
+                //cell.textLabel?.textColor = UIColor.whiteColor()
+                cell.userFullNameLabel?.textColor = UIColor.whiteColor()
+                
+//                let logOut = UITableViewRowAction(style: .Normal, title: "Log Out") { action, index in
+//                    print("log out button tapped")
+//                    PFUser.logOut()
+//                    
+//                }
+//                logOut.backgroundColor = UIColor.lightGrayColor()
+//                return[logOut]
+            }
+            
             // print("Index is at: \(indexPath.row - 1)")
             
             // edit label to full name of user
             let first = userAtHome["firstName"]
             let last = userAtHome["lastName"]
+            
+            
+            
             cell.userFullNameLabel.text = String("\(first) \(last)")
             if userAtHome.username == "miriam"
             {
@@ -335,12 +285,20 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITableVi
             return cell
             
         }
+    
+    
     }
     
     
-    
-    
+   
+func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    // the cells you would like the actions to appear needs to be editable
+    return true
 }
+
+}
+
+
 
 func colorWithHexString (hex:String) -> UIColor {
     var cString:String = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).uppercaseString
